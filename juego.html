@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verdad o Reto</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #944ff0; /* Morado pastel */
+        }
+
+        header {
+            background-color: #007BFF;
+            color: white;
+            text-align: center;
+            padding: 10px;
+        }
+
+        main {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            margin: 20px;
+        }
+
+        .categoria-button {
+            background-color: yellow;
+            border: none;
+            padding: 10px 20px;
+            margin: 5px;
+            cursor: pointer;
+            font-size: 18px;
+        }
+
+        #categorias-lista {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .boton-verdad {
+            background-color: #28A745; /* Verde */
+            color: white;
+            padding: 5px 10px;
+            border: none;
+            cursor: pointer;
+        }
+
+        .boton-reto {
+            background-color: #DC3545; /* Rojo */
+            color: white;
+            padding: 5px 10px;
+            border: none;
+            cursor: pointer;
+        }
+
+        #juego {
+            display: none;
+            text-align: center;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Verdad o Reto</h1>
+    </header>
+    <main>
+        <div id="categoria-selector">
+            <h2>Selecciona una categoría:</h2>
+            <div id="categorias-lista">
+                <button class="categoria-button" onclick="mostrarPreguntas('clasico')">Clásico</button>
+                <button class="categoria-button" onclick="mostrarPreguntas('niños')">Niños</button>
+                <button class="categoria-button" onclick="mostrarPreguntas('caliente')">Caliente</button>
+                <button class="categoria-button" onclick="mostrarPreguntas('fiesta')">Fiesta</button>
+            </div>
+        </div>
+        <div id="juego">
+            <h2 id="pregunta-o-reto"></h2>
+            <button class="boton-verdad" onclick="mostrarSiguiente('verdad')">Verdad</button>
+            <button class="boton-reto" onclick="mostrarSiguiente('reto')">Reto</button>
+        </div>
+    </main>
+    <script>
+        const categoriasData = {
+            "clasico": {
+                "verdad": [
+                    "¿Cuál es tu color favorito?",
+                    "¿Cuál es tu película favorita?",
+                    "¿Tienes alguna fobia?",
+                    "¿Cuál es tu comida favorita?",
+                    "¿Cuál es tu canción favorita?",
+                    "¿Qué te hace reír a carcajadas?",
+                    "¿Cuál es tu libro favorito?",
+                    "¿Has mentido en alguna ocasión para salir de un compromiso?",
+                    "¿Qué te gustaría cambiar de ti mismo?",
+                    "¿Cuál es tu mayor logro en la vida?"
+                ],
+                "reto": [
+                    "Baila como un loco durante 30 segundos.",
+                    "Canta una canción en voz alta.",
+                    "Habla en una voz divertida durante 1 minuto.",
+                    "Dibuja un autorretrato sin mirar el papel.",
+                    "Habla como un robot durante 1 minuto.",
+                    "Haz una imitación de tu celebridad favorita.",
+                    "Besa a la persona a tu izquierda en la mejilla.",
+                    "Haz una lista de reproducción de música para una fiesta.",
+                    "Cuéntanos una broma divertida.",
+                    "Habla en otro idioma durante 2 minutos."
+                ]
+            },
+            "niños": {
+                "verdad": [
+                    "¿Cuál es tu animal favorito?",
+                    "¿Qué te gustaría ser cuando crezcas?",
+                    "¿Qué superpoder te gustaría tener?",
+                    "¿Cuál es tu deporte favorito?",
+                    "¿Cuál es tu videojuego favorito?",
+                    "¿Cuál es tu comida menos favorita?",
+                    "¿Cuál es tu asignatura preferida en la escuela?",
+                    "¿Tienes una mascota?",
+                    "¿Cuál es tu juguete favorito?",
+                    "¿A qué le tienes miedo?"
+                ],
+                "reto": [
+                    "Imita a tu animal favorito.",
+                    "Cuenta un chiste gracioso.",
+                    "Salta en un pie durante 30 segundos.",
+                    "Habla como un personaje de dibujos animados durante 1 minuto.",
+                    "Haz una cara divertida y manténla durante 1 minuto.",
+                    "Dibuja una caricatura de ti mismo.",
+                    "Canta una canción de Disney.",
+                    "Habla sobre tu día en rima.",
+                    "Baila como un robot.",
+                    "Haz una voz de monstruo y asusta a todos."
+                ]
+            },
+            "caliente": {
+                "verdad": [
+                    "¿Cuál es tu mayor fantasía?",
+                    "¿Has tenido un flechazo recientemente?",
+                    "¿Cuál es tu lugar favorito para un beso?",
+                    "¿Cuál es tu fantasía más atrevida?",
+                    "¿Qué prenda de ropa te gustaría que tu pareja use en la cama?",
+                    "¿Alguna vez has tenido un sueño erótico?",
+                    "¿Qué opinas sobre las citas en línea?",
+                    "¿Cuál es tu posición favorita?",
+                    "¿Alguna vez te han pillado en una situación íntima?",
+                    "¿Cuál es tu beso más apasionado que recuerdas?"
+                ],
+                "reto": [
+                    "Besa a la persona a tu derecha durante 10 segundos.",
+                    "Haz una llamada sensual a alguien de tu elección.",
+                    "Baila sensualmente durante 1 minuto.",
+                    "Habla en voz sensual durante 1 minuto.",
+                    "Envía un mensaje atrevido a alguien de tu elección.",
+                    "Muestra tu mejor movimiento de striptease (sin quitarte la ropa).",
+                    "Cuenta una experiencia íntima divertida.",
+                    "Dibuja una fantasía romántica.",
+                    "Haz una pregunta atrevida a la persona a tu izquierda.",
+                    "Comparte una fantasía secreta."
+                ]
+            },
+            "fiesta": {
+                "verdad": [
+                    "¿Cuál es tu trago favorito?",
+                    "¿Qué música te hace bailar sin control?",
+                    "¿Has hecho alguna vez una locura en una fiesta?",
+                    "¿Cuál es tu experiencia más embarazosa en una fiesta?",
+                    "¿Cuál es tu baile más vergonzoso?",
+                    "¿Qué opinas sobre las fiestas temáticas?",
+                    "¿Has besado a alguien en una fiesta?",
+                    "¿Cuál es tu hora favorita para una fiesta?",
+                    "¿Qué es lo que más te gusta de las fiestas?",
+                    "¿Alguna vez has sido el alma de la fiesta?"
+                ],
+                "reto": [
+                    "Baila una canción sexy.",
+                    "Habla como un famoso durante 1 minuto.",
+                    "Haz una imitación graciosa de alguien famoso.",
+                    "Canta una canción de karaoke con los ojos cerrados.",
+                    "Realiza un baile alocado durante 1 minuto.",
+                    "Actúa como el anfitrión de una fiesta imaginaria.",
+                    "Invita a alguien a bailar contigo.",
+                    "Habla sobre tu fiesta ideal.",
+                    "Muestra tu mejor paso de baile.",
+                    "Realiza una broma tonta a alguien."
+                ]
+            }
+        };
+
+        let categoriaActual = "";
+        let tipoActual = "";
+
+        function cargarCategorias() {
+            const categoriasLista = document.getElementById("categorias-lista");
+            Object.keys(categoriasData).forEach((categoria) => {
+                const categoriaButton = document.createElement("button");
+                categoriaButton.textContent = categoria;
+                categoriaButton.className = "categoria-button";
+                categoriaButton.addEventListener("click", () => {
+                    mostrarPreguntas(categoria);
+                });
+                categoriasLista.appendChild(categoriaButton);
+            });
+        }
+
+        function mostrarPreguntas(categoria) {
+            categoriaActual = categoria;
+            const juego = document.getElementById("juego");
+            juego.style.display = "block";
+        }
+
+        function mostrarSiguiente(tipo) {
+            tipoActual = tipo;
+            const preguntasORetos = categoriasData[categoriaActual][tipoActual];
+            const preguntaOReto = document.getElementById("pregunta-o-reto");
+            const preguntaAleatoria = obtenerPreguntaAleatoria(preguntasORetos);
+            preguntaOReto.textContent = preguntaAleatoria;
+        }
+
+        function obtenerPreguntaAleatoria(array) {
+            const indiceAleatorio = Math.floor(Math.random() * array.length);
+            return array[indiceAleatorio];
+        }
+
+        cargarCategorias();
+    </script>
+</body>
+</html>

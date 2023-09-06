@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verdad o Reto - Registro</title>
+    <!-- Estilos -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #E6E6FA; /* Morado pastel */
+        }
+
+        header {
+            background-color: #007BFF;
+            color: white;
+            text-align: center;
+            padding: 10px;
+        }
+
+        main {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            margin: 20px;
+        }
+
+        #registro {
+            text-align: center;
+        }
+
+        input[type="text"] {
+            padding: 5px;
+            font-size: 18px;
+        }
+
+        #boton-jugar {
+            background-color: #007BFF;
+            color: white;
+            padding: 10px 20px;
+            font-size: 18px;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Verdad o Reto - Registro</h1>
+    </header>
+    <main>
+        <div id="registro">
+            <h2>Ingresa tu nombre de usuario:</h2>
+            <input type="text" id="nombre-usuario" placeholder="Nombre de usuario">
+            <br>
+            <button id="boton-jugar" onclick="irASegundaPagina()">Jugar</button>
+        </div>
+    </main>
+    <script>
+        function irASegundaPagina() {
+            const nombreUsuario = document.getElementById("nombre-usuario").value;
+            if (nombreUsuario) {
+                // Redirige a la página de juego con el nombre de usuario como parámetro
+                window.location.href = `juego.html?nombre=${encodeURIComponent(nombreUsuario)}`;
+            } else {
+                alert("Por favor, ingresa tu nombre de usuario.");
+            }
+        }
+    </script>
+</body>
+</html>
